@@ -18,20 +18,20 @@ interface OffscreenCanvas extends EventTarget {
 // https://html.spec.whatwg.org/multipage/canvas.html#offscreencanvasrenderingcontext2d
 interface OffscreenCanvasRenderingContext2D
   extends CanvasState,
-    CanvasTransform,
-    CanvasCompositing,
-    CanvasImageSmoothing,
-    CanvasFillStrokeStyles,
-    CanvasShadowStyles,
-    CanvasFilters,
-    CanvasRect,
-    CanvasDrawPath,
-    CanvasText,
-    CanvasDrawImage,
-    CanvasImageData,
-    CanvasPathDrawingStyles,
-    CanvasTextDrawingStyles,
-    CanvasPath {
+  CanvasTransform,
+  CanvasCompositing,
+  CanvasImageSmoothing,
+  CanvasFillStrokeStyles,
+  CanvasShadowStyles,
+  CanvasFilters,
+  CanvasRect,
+  CanvasDrawPath,
+  CanvasText,
+  CanvasDrawImage,
+  CanvasImageData,
+  CanvasPathDrawingStyles,
+  CanvasTextDrawingStyles,
+  CanvasPath {
   readonly canvas: OffscreenCanvas;
 }
 
@@ -105,7 +105,7 @@ export class CanvasContext extends RenderContext {
   }
 
   // eslint-disable-next-line
-  openGroup(cls?: string, id?: string): any {
+  openGroup(cls?: string, id?: string, attrs?: Record<string, string>): any {
     // Containers not implemented.
   }
 
