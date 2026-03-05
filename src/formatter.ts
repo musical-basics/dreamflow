@@ -46,6 +46,8 @@ export interface FormatParams {
   autoBeam?: boolean;
   /** Stave object to render to **/
   stave?: Stave;
+  /** Array of staves for cross-stave alignment (syncs noteStartX across all staves) **/
+  staves?: Stave[];
   /** The RenderContext **/
   context?: RenderContext;
 }
