@@ -358,7 +358,11 @@ export class Tuplet extends Element {
     }
 
     // find center of notation for text placement
-    const notationCenterX = xPos + bodyWidth / 2;
+    // Use absoluteX of first and last notes for accurate centering,
+    // which accounts for XShifts from proportional spacing.
+    const firstAbsX = firstNote.getAbsoluteX();
+    const lastAbsX = lastNote.getAbsoluteX();
+    const notationCenterX = (firstAbsX + lastAbsX) / 2;
     const notationStartX = notationCenterX - totalTextWidth / 2;
 
     // Compute a common vertical coordinate for text rendering.
