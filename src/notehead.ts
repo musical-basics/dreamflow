@@ -4,7 +4,6 @@
 import { ElementStyle } from './element';
 import { Note, NoteStruct } from './note';
 import { Stave } from './stave';
-import { StaveNote } from './stavenote';
 import { Stem } from './stem';
 import { Category } from './typeguard';
 import { defined, log } from './util';

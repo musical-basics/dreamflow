@@ -154,14 +154,10 @@ export class StaveTie extends Element {
 
     const lastIndexes = this.notes.lastIndexes!;
     const clsAttribute = this.getAttribute('class');
-    ctx.openGroup(
-      'stavetie' + (clsAttribute ? ' ' + clsAttribute : ''),
-      this.getAttribute('id'),
-      {
-        'data-first-x': String(params.firstX),
-        'data-end-x': String(params.lastX),
-      }
-    );
+    ctx.openGroup('stavetie' + (clsAttribute ? ' ' + clsAttribute : ''), this.getAttribute('id'), {
+      'data-first-x': String(params.firstX),
+      'data-end-x': String(params.lastX),
+    });
     for (let i = 0; i < firstIndexes.length; ++i) {
       const cpX = (params.lastX + lastXShift + (params.firstX + firstXShift)) / 2;
       // firstY and lastY are specified in pixels.

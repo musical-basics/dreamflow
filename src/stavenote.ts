@@ -222,8 +222,8 @@ export class StaveNote extends StemmableNote {
               // If we have different dot values, shift
               noteU.note.getModifiers().filter((item) => item.getCategory() === Category.Dot && item.getIndex() === 0)
                 .length !==
-              noteL.note.getModifiers().filter((item) => item.getCategory() === Category.Dot && item.getIndex() === 0)
-                .length ||
+                noteL.note.getModifiers().filter((item) => item.getCategory() === Category.Dot && item.getIndex() === 0)
+                  .length ||
               // If the notes are quite close but not on the same line, shift
               (lineDiff < 1 && lineDiff > 0) ||
               // If styles are different, shift
@@ -1131,9 +1131,9 @@ export class StaveNote extends StemmableNote {
       const flagY =
         this.getStemDirection() === Stem.DOWN
           ? // Down stems are below the note head and have flags on the right.
-          yTop - noteStemHeight - this.flag.getTextMetrics().actualBoundingBoxDescent
+            yTop - noteStemHeight - this.flag.getTextMetrics().actualBoundingBoxDescent
           : // Up stems are above the note head and have flags on the right.
-          yBottom - noteStemHeight + this.flag.getTextMetrics().actualBoundingBoxAscent;
+            yBottom - noteStemHeight + this.flag.getTextMetrics().actualBoundingBoxAscent;
 
       // Draw the Flag
       this.flag.setContext(ctx).setX(flagX).setY(flagY).drawWithStyle();
