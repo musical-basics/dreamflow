@@ -178,6 +178,8 @@ export class Articulation extends Modifier {
   readonly type: string;
 
   protected articulation: ArticulationStruct;
+  /** Whether this articulation is a fermata (always placed above staff). */
+  readonly isFermata: boolean;
 
   protected heightShift = 0;
   /**
@@ -225,7 +227,11 @@ export class Articulation extends Modifier {
       if (stave) {
         lines = stave.getNumLines();
       }
-      if (articulation.getPosition() === ABOVE) {
+      if (articulation.getPosition() === ABOVE || articulation.isFermata) {
+        // Fermatas are always placed above regardless of stem direction
+        if (articulation.isFermata) {
+          articulation.setPosition(ABOVE);
+        }
         let noteLine = note.getLineNumber(true);
         if (stemDirection === Stem.UP) {
           noteLine += stemHeight;
@@ -301,10 +307,16 @@ export class Articulation extends Modifier {
     super();
 
     this.type = type;
+    // Detect fermatas: all fermata articulation codes start with 'a@'
+    this.isFermata = type.startsWith('a@');
     this.position = ABOVE;
     if (!Tables.articulationCodes(this.type)) {
       if ((this.type.codePointAt(0) ?? 0) % 2 === 0) this.position = ABOVE;
       else this.position = BELOW;
+    }
+    // Fermatas always go above the staff per standard engraving rules
+    if (this.isFermata) {
+      this.position = ABOVE;
     }
 
     this.articulation = { betweenLines: false };
