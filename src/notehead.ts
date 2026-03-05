@@ -157,7 +157,9 @@ export class NoteHead extends Note {
     L("Drawing note head '", this.noteType, this.duration, "' at", this.x, this.y);
     this.x = this.getAbsoluteX();
     this.renderText(ctx, 0, 0);
-    (this.parent as StaveNote)?.drawModifiers(this);
+    // NOTE: drawModifiers is intentionally NOT called here.
+    // Modifiers (grace notes, articulations, etc.) are drawn by StaveNote.draw()
+    // outside the note-core group to prevent bounding box expansion.
     this.drawPointerRect();
     ctx.closeGroup();
   }

@@ -222,8 +222,8 @@ export class StaveNote extends StemmableNote {
               // If we have different dot values, shift
               noteU.note.getModifiers().filter((item) => item.getCategory() === Category.Dot && item.getIndex() === 0)
                 .length !==
-                noteL.note.getModifiers().filter((item) => item.getCategory() === Category.Dot && item.getIndex() === 0)
-                  .length ||
+              noteL.note.getModifiers().filter((item) => item.getCategory() === Category.Dot && item.getIndex() === 0)
+                .length ||
               // If the notes are quite close but not on the same line, shift
               (lineDiff < 1 && lineDiff > 0) ||
               // If styles are different, shift
@@ -1131,9 +1131,9 @@ export class StaveNote extends StemmableNote {
       const flagY =
         this.getStemDirection() === Stem.DOWN
           ? // Down stems are below the note head and have flags on the right.
-            yTop - noteStemHeight - this.flag.getTextMetrics().actualBoundingBoxDescent
+          yTop - noteStemHeight - this.flag.getTextMetrics().actualBoundingBoxDescent
           : // Up stems are above the note head and have flags on the right.
-            yBottom - noteStemHeight + this.flag.getTextMetrics().actualBoundingBoxAscent;
+          yBottom - noteStemHeight + this.flag.getTextMetrics().actualBoundingBoxAscent;
 
       // Draw the Flag
       this.flag.setContext(ctx).setX(flagX).setY(flagY).drawWithStyle();
@@ -1236,10 +1236,21 @@ export class StaveNote extends StemmableNote {
     // Apply the overall style -- may be contradicted by local settings:
     const clsAttribute = this.getAttribute('class');
     ctx.openGroup('stavenote' + (clsAttribute ? ' ' + clsAttribute : ''), this.getAttribute('id'));
+
+    // Wrap structural components in a 'note-core' group so CSS transformBox: fill-box
+    // only encompasses the core note geometry (ledger lines, stem, noteheads, flag).
+    // Modifiers (grace notes, articulations, etc.) are drawn OUTSIDE this group
+    // to prevent them from expanding the bounding box used for animations.
+    ctx.openGroup('note-core');
     this.drawLedgerLines();
     if (shouldRenderStem) this.drawStem();
     this.drawNoteHeads();
     this.drawFlag();
+    ctx.closeGroup();
+
+    // Draw modifiers (grace notes, articulations, dots, etc.) outside note-core
+    this._noteHeads.forEach((nh) => this.drawModifiers(nh));
+
     this.drawPointerRect();
     ctx.closeGroup();
     this.setRendered();
