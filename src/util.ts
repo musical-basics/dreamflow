@@ -1,6 +1,14 @@
 // Copyright (c) 2023-present VexFlow contributors: https://github.com/vexflow/vexflow/graphs/contributors
 // MIT License
-export { structuredClone } from 'structured-clone-es';
+// Inline structuredClone: use native when available (all modern browsers/Node 17+),
+// fall back to JSON roundtrip for older environments.
+// This avoids the 'structured-clone-es' polyfill which causes ESM resolution issues
+// with bundlers like Turbopack (TSC appends .js to the import specifier).
+const _structuredClone: <T>(value: T) => T =
+  typeof globalThis !== 'undefined' && typeof globalThis.structuredClone === 'function'
+    ? globalThis.structuredClone
+    : <T>(value: T): T => JSON.parse(JSON.stringify(value));
+export { _structuredClone as structuredClone };
 
 // Note: Keep this module free of imports to reduce the chance of circular dependencies.
 
