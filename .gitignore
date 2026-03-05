@@ -42,3 +42,6 @@ npm-debug.log
 
 pnpm-lock.yaml
 /.idea
+
+# Repomix
+repomix-output.xml

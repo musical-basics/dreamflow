@@ -1,0 +1,37 @@
+{
+    "output": {
+        "filePath": "repomix-output.xml",
+        "style": "xml"
+    },
+    "ignore": {
+        "useGitignore": true,
+        "useDefaultPatterns": true,
+        "customPatterns": [
+            "node_modules",
+            ".git",
+            "package-lock.json",
+            "pnpm-lock.yaml",
+            "tests/**",
+            "demos/**",
+            "tools/**",
+            "changelog/**",
+            ".github/**",
+            ".vscode/**",
+            "src/fonts/**",
+            "src/glyphs.ts",
+            "*.html",
+            "*.css",
+            "*.png",
+            "*.jpg",
+            "*.svg",
+            "*.woff",
+            "*.woff2",
+            "*.ttf",
+            "*.otf",
+            ".DS_Store",
+            "typedoc.json",
+            "Gruntfile.js",
+            "repomix-output.xml"
+        ]
+    }
+}
