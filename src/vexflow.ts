@@ -380,3 +380,6 @@ export class VexFlow {
     return Tables.durationToTicks(duration);
   }
 }
+
+// DreamFlow alias — use alongside VexFlow for backward compatibility
+export const DreamFlow = VexFlow;
