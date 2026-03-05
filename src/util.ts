@@ -77,6 +77,7 @@ export function midLine(a: number, b: number): number {
  * unique prefix to element names (or other keys in shared namespaces).
  */
 export function prefix(text: string): string {
+  if (text.startsWith('vf-')) return text;
   return `vf-${text}`;
 }
 
@@ -130,7 +131,7 @@ export function sumArray(arr: number[]): number {
 
       return newArr;
     } else {
-      return [].concat(arr); // 
+      return [].concat(arr); //
     }
   }
   */
