@@ -317,7 +317,7 @@ export class Font {
     }
 
     const fontFace = new FontFace(fontName, `url(${url})`, descriptors);
-    const fontFaceLoadPromise = fontFace.load();
+    const loadedFontFace = await fontFace.load();
 
     // https://developer.mozilla.org/en-US/docs/Web/API/FontFaceSet
     let fontFaceSet;
@@ -329,8 +329,20 @@ export class Font {
       // eslint-disable-next-line
       fontFaceSet = self.fonts as any;
     }
-    fontFaceSet?.add(fontFace);
-    return fontFaceLoadPromise;
+    fontFaceSet?.add(loadedFontFace);
+
+    // Force the browser to actually download and parse the font data.
+    // Without this, the FontFace may be "loaded" but not yet available for rendering,
+    // causing fallback glyphs on first render.
+    if (typeof document !== 'undefined') {
+      try {
+        await document.fonts.load(`30px "${fontName}"`);
+      } catch {
+        // Silently ignore — font may still render correctly
+      }
+    }
+
+    return loadedFontFace;
   }
 
   static getURLForFont(fontName: string): string | undefined {
