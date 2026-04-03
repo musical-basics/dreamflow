@@ -37,6 +37,9 @@ const fontLoadPromises = [
 ];
 
 VexFlow.BUILD.INFO = 'vexflow';
+
+// Set default fonts immediately so Metrics.get('fontFamily') returns
+// the correct value even before fonts finish loading.
 VexFlow.setFonts('Bravura', 'Academico');
 
 /**
@@ -52,7 +55,9 @@ VexFlow.setFonts('Bravura', 'Academico');
  * ```
  */
 export const fontsReady: Promise<void> = Promise.allSettled(fontLoadPromises).then(() => {
-  // All font loads settled (some may have failed).
+  // Re-apply setFonts after load to clear any stale Metrics caches
+  // that may have been populated during the async font loading window.
+  VexFlow.setFonts(...VexFlow.getFonts());
 });
 
 export * from '../src/index';

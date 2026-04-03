@@ -129,6 +129,20 @@ export class SVGContext extends RenderContext {
     this.applyAttributes(svg, this.attributes);
     this.groupAttributes.push({ ...this.attributes });
 
+    // Set font properties as inline style on the SVG root element.
+    // SVG presentation attributes (font-family="Bravura") have zero CSS specificity
+    // and lose to inherited CSS rules (e.g., Tailwind/Next.js font-sans on <body>).
+    // Inline styles ensure the SVG root's font cascades correctly to all children,
+    // allowing the browser to begin glyph shaping on the first layout pass.
+    const ff = defaultFontAttributes['font-family'];
+    const fs = defaultFontAttributes['font-size'];
+    if (ff) {
+      svg.style.fontFamily = ff;
+    }
+    if (fs) {
+      svg.style.fontSize = String(fs);
+    }
+
     this.stateStack = [];
   }
 

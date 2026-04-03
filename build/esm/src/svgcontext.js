@@ -57,6 +57,10 @@ export class SVGContext extends RenderContext {
         this.groupAttributes = [];
         this.applyAttributes(svg, this.attributes);
         this.groupAttributes.push(Object.assign({}, this.attributes));
+        const ff = defaultFontAttributes['font-family'];
+        const fs = defaultFontAttributes['font-size'];
+        if (ff) svg.style.fontFamily = ff;
+        if (fs) svg.style.fontSize = String(fs);
         this.stateStack = [];
     }
     round(n) {
