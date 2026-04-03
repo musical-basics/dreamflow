@@ -567,6 +567,26 @@ export class SVGContext extends RenderContext {
     const txt = this.create('text');
     txt.textContent = text;
     this.applyAttributes(txt, attributes);
+
+    // Force font properties as inline styles on <text> elements.
+    // SVG presentation attributes (font-family="Bravura") have zero CSS specificity
+    // and lose to any inherited CSS font-family (e.g., Tailwind's font-sans on <body>).
+    // Additionally, applyAttributes() skips font-family when it matches the parent group,
+    // leaving <text> elements without any font-family attribute at all.
+    // Inline styles have the highest specificity and cannot be overridden by external CSS.
+    const fontFamily = attributes['font-family'];
+    const fontSize = attributes['font-size'];
+    const fontWeight = attributes['font-weight'];
+    const fontStyle = attributes['font-style'];
+    if (fontFamily || fontSize || fontWeight || fontStyle) {
+      let style = '';
+      if (fontFamily) style += `font-family:${fontFamily};`;
+      if (fontSize) style += `font-size:${fontSize};`;
+      if (fontWeight && fontWeight !== 'normal') style += `font-weight:${fontWeight};`;
+      if (fontStyle && fontStyle !== 'normal') style += `font-style:${fontStyle};`;
+      txt.setAttribute('style', style);
+    }
+
     this.add(txt);
     return this;
   }

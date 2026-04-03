@@ -343,6 +343,18 @@ export class SVGContext extends RenderContext {
         const txt = this.create('text');
         txt.textContent = text;
         this.applyAttributes(txt, attributes);
+        const fontFamily = attributes['font-family'];
+        const fontSize = attributes['font-size'];
+        const fontWeight = attributes['font-weight'];
+        const fontStyle = attributes['font-style'];
+        if (fontFamily || fontSize || fontWeight || fontStyle) {
+            let style = '';
+            if (fontFamily) style += `font-family:${fontFamily};`;
+            if (fontSize) style += `font-size:${fontSize};`;
+            if (fontWeight && fontWeight !== 'normal') style += `font-weight:${fontWeight};`;
+            if (fontStyle && fontStyle !== 'normal') style += `font-style:${fontStyle};`;
+            txt.setAttribute('style', style);
+        }
         this.add(txt);
         return this;
     }
