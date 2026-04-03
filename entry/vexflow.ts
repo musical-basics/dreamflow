@@ -39,8 +39,20 @@ const fontLoadPromises = [
 VexFlow.BUILD.INFO = 'vexflow';
 VexFlow.setFonts('Bravura', 'Academico');
 
-Promise.allSettled(fontLoadPromises).then(() => {
-  //
+/**
+ * A promise that resolves when all bundled fonts have been loaded and added
+ * to `document.fonts`. Consumers should `await fontsReady` before rendering
+ * to ensure font-family references in SVG resolve to the correct glyphs.
+ *
+ * Usage:
+ * ```ts
+ * import { fontsReady } from 'dreamflow';
+ * await fontsReady;
+ * // Now safe to render
+ * ```
+ */
+export const fontsReady: Promise<void> = Promise.allSettled(fontLoadPromises).then(() => {
+  // All font loads settled (some may have failed).
 });
 
 export * from '../src/index';

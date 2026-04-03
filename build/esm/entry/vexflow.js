@@ -25,7 +25,7 @@ const fontLoadPromises = [
 ];
 VexFlow.BUILD.INFO = 'vexflow';
 VexFlow.setFonts('Bravura', 'Academico');
-Promise.allSettled(fontLoadPromises).then(() => {
+export const fontsReady = Promise.allSettled(fontLoadPromises).then(() => {
 });
 export * from '../src/index.js';
 export default VexFlow;
